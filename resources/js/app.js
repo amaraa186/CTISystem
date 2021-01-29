@@ -5,8 +5,8 @@ function dataTableController (id) {
         id,
         deleteItem() {
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: 'よろしいですか？',
+                text: "これを元に戻すことはできません！",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

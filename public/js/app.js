@@ -19361,13 +19361,14 @@ function dataTableController(id) {
       var _this = this;
 
       Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'よろしいですか？',
+        text: "これを元に戻すことはできません！",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        cancelButtonText: 'キャンセル',
+        confirmButtonText: '削除!'
       }).then(function (result) {
         if (result.isConfirmed) {
           Livewire.emit('deleteItem', _this.id);
@@ -19382,9 +19383,9 @@ function dataTableMainController() {
     setCallback: function setCallback() {
       Livewire.on('deleteResult', function (result) {
         if (result.status) {
-          Swal.fire('Deleted!', result.message, 'success');
+          Swal.fire('削除されました!', result.message, 'success');
         } else {
-          Swal.fire('Error!', result.message, 'error');
+          Swal.fire('エラー!', result.message, 'error');
         }
       });
     }

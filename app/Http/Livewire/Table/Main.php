@@ -44,16 +44,95 @@ class Main extends Component
                     "data" => array_to_object([
                         'href' => [
                             'create_new' => route('user.new'),
-                            'create_new_text' => 'Buat User Baru',
-                            'export' => '#',
-                            'export_text' => 'Export'
+                            'create_new_text' => '新しい看護師',
+                        ]
+                    ])
+                ];
+                break;
+
+            case 'room':
+                $rooms = $this->model::search($this->search)
+                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                    ->paginate($this->perPage);
+
+                return [
+                    "view" => 'livewire.table.room',
+                    "rooms" => $rooms,
+                    "data" => array_to_object([
+                        'href' => [
+                            'create_new' => route('room.new'),
+                            'create_new_text' => '新しい部屋',
+                        ]
+                    ])
+                ];
+                break;
+
+            case 'floor':
+                $floors = $this->model::search($this->search)
+                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                    ->paginate($this->perPage);
+
+                return [
+                    "view" => 'livewire.table.floor',
+                    "floors" => $floors,
+                    "data" => array_to_object([
+                        'href' => [
+                            'create_new' => route('floor.new'),
+                            'create_new_text' => '新しいフロア',
+                        ]
+                    ])
+                ];
+                break;
+
+            case 'bed':
+                $beds = $this->model::search($this->search)
+                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                    ->paginate($this->perPage);
+
+                return [
+                    "view" => 'livewire.table.bed',
+                    "beds" => $beds,
+                    "data" => array_to_object([
+                        'href' => [
+                            'create_new' => route('bed.new'),
+                            'create_new_text' => '新しいベッド',
+                        ]
+                    ])
+                ];
+                break;
+
+            case 'patient':
+                $patients = $this->model::search($this->search)
+                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                    ->paginate($this->perPage);
+
+                return [
+                    "view" => 'livewire.table.patient',
+                    "patients" => $patients,
+                    "data" => array_to_object([
+                        'href' => [
+                            'create_new' => route('patient.new'),
+                            'create_new_text' => '新しい患者',
                         ]
                     ])
                 ];
                 break;
 
             default:
-                # code...
+                $patient_masters = $this->model::search($this->search)
+                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                    ->paginate($this->perPage);
+
+                return [
+                    "view" => 'livewire.table.patient_master',
+                    "patient_masters" => $patient_masters,
+                    "data" => array_to_object([
+                        'href' => [
+                            'create_new' => route('patient_master.new'),
+                            'create_new_text' => '新しい患者マスター',
+                        ]
+                    ])
+                ];
                 break;
         }
     }
@@ -65,15 +144,22 @@ class Main extends Component
         if (!$data) {
             $this->emit("deleteResult", [
                 "status" => false,
-                "message" => "Gagal menghapus data " . $this->name
+                "message" => "削除に失敗しました!"
             ]);
             return;
         }
 
-        $data->delete();
+        $updated = auth()->user();
+
+        $updated_by = $updated->id;
+
+        $data->forcefill([
+            'deleted' => 1,
+            'updated_by' => $updated_by,
+        ])->save();
         $this->emit("deleteResult", [
             "status" => true,
-            "message" => "Data " . $this->name . " berhasil dihapus!"
+            "message" => "正常に削除されました!"
         ]);
     }
 

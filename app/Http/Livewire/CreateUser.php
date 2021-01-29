@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class CreateUser extends Component
-{
+{   
     public $user;
     public $userId;
     public $action;
@@ -24,7 +24,8 @@ class CreateUser extends Component
 
         return array_merge([
             'user.name' => 'required|min:3',
-            'user.email' => 'required|email|unique:users,email'
+            'user.kana' => 'required|min:3',
+            'user.email' => 'required|email|unique:users,email',
         ], $rules);
     }
 
@@ -39,6 +40,11 @@ class CreateUser extends Component
             $this->user['password'] = Hash::make($password);
         }
 
+        $created = auth()->user();
+
+        $created_by = $created->id;
+        $this->user['Created_by'] = $created_by;
+
         User::create($this->user);
 
         $this->emit('saved');
@@ -50,9 +56,16 @@ class CreateUser extends Component
         $this->resetErrorBag();
         $this->validate();
 
-        User::query()
-            ->where('id', $this->userId)
-            ->update($this->user);
+        $updated = auth()->user();
+
+        $updated_by = $updated->id;
+
+        User::find($this->userId)->forcefill([
+            'name' => $this->user['name'],
+            'kana' => $this->user['kana'],
+            'email' => $this->user['email'],
+            'updated_by' => $updated_by,
+        ])->save();
 
         $this->emit('saved');
     }

@@ -30,10 +30,8 @@ use App\Models\Model\bedStatus;
                 <x-jet-label for="room_id" value="{{ __('部屋') }}" />
                 <select id="room_id" wire:model.defer="bed.room_id" class="mt-1 block w-full form-control shadow-none">
                         <option></option>
-                    @foreach (room::all() as $item)
-                        @if($item->deleted == 0)
+                    @foreach (room::where('deleted', '=', 0)->get() as $item)
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endif
                     @endforeach
                 </select>
                 <x-jet-input-error for="bed.room_id" class="mt-2" />
@@ -53,10 +51,8 @@ use App\Models\Model\bedStatus;
             <div class="form-group col-span-6 sm:col-span-5">
                 <x-jet-label for="room_id" value="{{ __('部屋') }}" />
                 <select id="room_id" wire:model.defer="bed.room_id" class="mt-1 block w-full form-control shadow-none">
-                    @foreach (room::all() as $item)
-                        @if($item->deleted == 0)
+                    @foreach (room::where('deleted', '=', 0)->get() as $item)
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endif
                     @endforeach
                 </select>
                 <x-jet-input-error for="bed.room_id" class="mt-2" />

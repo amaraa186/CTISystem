@@ -27,7 +27,7 @@ use App\Models\User;
                 <x-jet-label for="patient_id" value="{{ __('患者') }}" />
                 <select id="patient_id" wire:model.defer="patient_master.patient_id" class="mt-1 block w-full form-control shadow-none">
                         <option></option>
-                    @foreach (patient::where('deleted', 0)->get() as $item)
+                    @foreach (patient::where('deleted', '=', 0)->get() as $item)
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach
                 </select>

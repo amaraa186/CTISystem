@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>CTI System</title>
 
         @isset($meta)
             {{ $meta }}
@@ -42,7 +42,7 @@
                         @isset($header_content)
                             {{ $header_content }}
                         @else
-                            {{ __('Halaman') }}
+                            {{ __('プロファイル') }}
                         @endisset
                       </div>
 

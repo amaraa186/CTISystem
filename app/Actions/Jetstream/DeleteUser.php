@@ -14,6 +14,9 @@ class DeleteUser implements DeletesUsers
      */
     public function delete($user)
     {
-        $user->delete();
+        $user->forcefill([
+            'deleted' => 1,
+            'updated_by' => $user->id,
+        ])->save();
     }
 }

@@ -28,10 +28,8 @@ use App\Models\Model\floor;
                 <x-jet-label for="floor_id" value="{{ __('フロア') }}" />
                 <select id="floor_id" wire:model.defer="room.floor_id" class="mt-1 block w-full form-control shadow-none">
                         <option></option>
-                    @foreach (floor::all() as $item)
-                        @if($item->deleted == 0)
+                    @foreach (floor::where('deleted', '=', 0)->get() as $item)
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endif
                     @endforeach
                 </select>
                 <x-jet-input-error for="room.floor_id" class="mt-2" />
@@ -40,10 +38,8 @@ use App\Models\Model\floor;
             <div class="form-group col-span-6 sm:col-span-5">
                 <x-jet-label for="floor_id" value="{{ __('フロア') }}" />
                 <select id="floor_id" wire:model.defer="room.floor_id" class="mt-1 block w-full form-control shadow-none">
-                    @foreach (floor::all() as $item)
-                        @if($item->deleted == 0)
+                    @foreach (floor::where('deleted', '=', 0)->get() as $item)
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endif
                     @endforeach
                 </select>
                 <x-jet-input-error for="room.floor_id" class="mt-2" />
